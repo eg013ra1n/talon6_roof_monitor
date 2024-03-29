@@ -12,8 +12,8 @@ def load_config():
 def roof_server_polling(server_address, server_port, status_file_path):
     while True:
         try:
-            with socket.create_connection((server_address, server_port), timeout=10) as sock:
-                sock.settimeout(10.0)
+            with socket.create_connection((server_address, server_port), timeout=15) as sock:
+                sock.settimeout(15.0)
                 while True:
                     data = sock.recv(1024).decode('utf-8')
                     if not data:
@@ -27,9 +27,9 @@ def roof_server_polling(server_address, server_port, status_file_path):
                     else:
                         update_status_file(status_file_path, 2)
 
-        except socket.timeout:
-            print("Connection timed out. Attempting to reconnect...")
-            update_status_file(status_file_path, 2)
+        # except socket.timeout:
+        #     print("Connection timed out. Attempting to reconnect...")
+        #     update_status_file(status_file_path, 2)
 
         except Exception as e:
             print(f"Connection error: {e}")
